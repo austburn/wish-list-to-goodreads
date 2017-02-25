@@ -1,12 +1,24 @@
 #!/usr/bin/env python
 
 import argparse
-from utils import pull_wish_list
+from utils import pull_wish_list, get_isbns
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='convert amz wish list to goodreads import format')
     parser.add_argument('--url', dest='url', type=str, required=True)
+    parser.add_argument('--access-key', dest='access_key', type=str, required=True)
     args = parser.parse_args()
 
-    pull_wish_list(args.url)
+    wish_list = pull_wish_list(args.url)
+    books_with_isbn, failed_searches = get_isbns(wish_list, args.access_key)
+
+    with open('out.csv', 'w') as f:
+        f.write('Title;Author;ISBN\n')
+        for entry in books_with_isbn:
+            f.write('{title};{author};{isbn}\n'.format(**entry))
+
+    with open('unsuccessful.csv', 'w') as f:
+        f.write('Title;Author\n')
+        for entry in failed_searches:
+            f.write('{title};{author}\n'.format(**entry))
