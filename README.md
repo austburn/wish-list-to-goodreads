@@ -16,3 +16,5 @@ pip install -r requirements.txt
 In `out.csv` you'll find the books that were successfully gathered, in `unsuccessful.csv` you'll find the books that were not found via search.
 
 I can't really guarantee this works well... But it does work.
+
+**Note**: Assumes that you have a wish list entirely compromised of books...
