@@ -10,7 +10,8 @@ if __name__ == "__main__":
     parser.add_argument('--access-key', dest='access_key', type=str, required=True)
     args = parser.parse_args()
 
-    wish_list = pull_wish_list(args.url)
+    wish_list_url = args.url + '?ie=UTF8&disableNav=1&layout=standard-print'
+    wish_list = pull_wish_list(wish_list_url)
     books_with_isbn, failed_searches = get_isbns(wish_list, args.access_key)
 
     with open('out.csv', 'w') as f:
